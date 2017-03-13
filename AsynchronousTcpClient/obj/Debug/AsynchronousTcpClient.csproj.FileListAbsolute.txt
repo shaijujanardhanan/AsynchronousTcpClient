@@ -1,0 +1,5 @@
+D:\Coding\GitHub\AsynchronousTcpClient\AsynchronousTcpClient\bin\Debug\AsynchronousTcpClient.dll
+D:\Coding\GitHub\AsynchronousTcpClient\AsynchronousTcpClient\bin\Debug\AsynchronousTcpClient.pdb
+D:\Coding\GitHub\AsynchronousTcpClient\AsynchronousTcpClient\obj\Debug\AsynchronousTcpClient.csprojResolveAssemblyReference.cache
+D:\Coding\GitHub\AsynchronousTcpClient\AsynchronousTcpClient\obj\Debug\AsynchronousTcpClient.dll
+D:\Coding\GitHub\AsynchronousTcpClient\AsynchronousTcpClient\obj\Debug\AsynchronousTcpClient.pdb
