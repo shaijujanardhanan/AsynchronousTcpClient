@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -33,9 +34,40 @@ namespace AsynchronousTcpClient
 
         private void ConnectCallback(IAsyncResult ar)
         {
-            Socket client = ar as Socket;
+            Socket client = (Socket)ar.AsyncState;
             client.EndConnect(ar);
+            Debug.WriteLine($"Client connected to {client.RemoteEndPoint}");
             connectDone.Set();
+        }
+
+        public void SendData(string data)
+        {
+            byte[] dataByte = Encoding.ASCII.GetBytes(data);
+            socket.BeginSend(dataByte, 0, dataByte.Length, SocketFlags.None, new AsyncCallback(SendCallback), socket);
+        }
+
+        private void SendCallback(IAsyncResult ar)
+        {
+            Socket client = (Socket)ar.AsyncState;
+            int bytesSent = client.EndReceive(ar);
+            Debug.WriteLine($"Client sent {bytesSent} to server");
+            sendDone.Set();
+        }
+
+        public string ReceiveData()
+        {
+            byte[] receivedData = new byte[1024];
+            socket.BeginReceive(receivedData, 0, receivedData.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+            receiveDone.WaitOne();
+            return BitConverter.ToString(receivedData);
+
+        }
+
+        private void ReceiveCallback(IAsyncResult ar)
+        {
+            Socket client = (Socket) ar.AsyncState;
+            int bytesReceived = client.EndReceive(ar);
+            receiveDone.Set();
         }
     }
 }
